@@ -2,13 +2,6 @@ package com.function;
 
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
-import com.azure.identity.ClientSecretCredential;
-import com.azure.identity.ClientSecretCredentialBuilder;
-import com.azure.identity.ManagedIdentityCredential;
-import com.azure.identity.ManagedIdentityCredentialBuilder;
-import com.azure.security.keyvault.secrets.SecretClient;
-import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.function.pojos.UserAccount;
 import com.microsoft.azure.functions.*;
 import java.sql.Connection;

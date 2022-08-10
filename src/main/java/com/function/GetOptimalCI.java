@@ -91,7 +91,7 @@ public class GetOptimalCI {
             String containerName = System.getenv("TSP_CONFIG_ZIP_CONTAINER");
             String fileName = new StringBuilder(airline).append("/").append(airline).append("-config-pkg.zip")
                     .toString();
-            String conn = System.getenv("STORAGE_URL");
+            String conn = System.getenv("STORAGE_CONNECTION_STRING");
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(conn);
             CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
             CloudBlobContainer container = blobClient.getContainerReference(containerName);
@@ -116,7 +116,7 @@ public class GetOptimalCI {
         Double etheta101 = null;
 
         try {
-            String conn = System.getenv("STORAGE_URL");
+            String conn = System.getenv("STORAGE_CONNECTION_STRING");
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(conn);
             CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
             CloudBlobContainer container = blobClient.getContainerReference("infltdb");

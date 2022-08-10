@@ -6,11 +6,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
-import com.azure.identity.ManagedIdentityCredential;
-import com.azure.identity.ManagedIdentityCredentialBuilder;
-import com.azure.security.keyvault.secrets.SecretClient;
-import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.function.pojos.AirlinePreferences;
 import com.microsoft.azure.functions.*;
 
