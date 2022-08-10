@@ -6,25 +6,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
-import com.azure.identity.ManagedIdentityCredential;
-import com.azure.identity.ManagedIdentityCredentialBuilder;
-import com.azure.security.keyvault.secrets.SecretClient;
-import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
-import com.function.pojos.AirlinePreferences;
+import com.function.pojos.FeatureManagement;
 import com.microsoft.azure.functions.*;
 
 /**
  * Azure Functions with HTTP Trigger.
  */
-public class GetAirlinePreferences {
+public class GetFeatureManagement {
     /**
-     * This function listens at endpoint "/api/getAirlinePreferences". Two ways to
+     * This function listens at endpoint "/api/getUserPreferences". Two ways to
      * invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/GetAirlinePreferences
-     * 2. curl {your host}/api/GetAirlinePreferences?name=HTTP%20Query
+     * 1. curl -d "HTTP Body" {your host}/api/getUserPreferences
+     * 2. curl {your host}/api/getUserPreferences?name=HTTP%20Query
      */
-    @FunctionName("getAirlinePreferences")
+    @FunctionName("getFeatureManagement")
     public HttpResponseMessage run(
             @HttpTrigger(name = "req", methods = { HttpMethod.GET,
                     HttpMethod.POST }, authLevel = AuthorizationLevel.FUNCTION) HttpRequestMessage<Optional<String>> request,
@@ -39,25 +34,16 @@ public class GetAirlinePreferences {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST)
                     .body("Please pass a name on the query string or in the request body").build();
         } else {
-            ManagedIdentityCredential managedIdentityCredential = new ManagedIdentityCredentialBuilder()
-                .build();
-
-            SecretClient client = new SecretClientBuilder()
-                    .vaultUrl("https://fda-groundservices-kv.vault.azure.net/")
-                    .credential(managedIdentityCredential)
-                    .buildClient();
-
-            KeyVaultSecret dbUri = client.getSecret("SQLDatabaseUrlNew");
-            context.getLogger().info(dbUri.getValue());
+            String conn = System.getenv("DB_CONNECTION_STRING");
 
             ResultSet resultSet = null;
-            List<AirlinePreferences> preferences = new ArrayList<AirlinePreferences>();
+            List<FeatureManagement> preferences = new ArrayList<FeatureManagement>();
 
-            try (Connection connection = DriverManager.getConnection(dbUri.getValue());
-                    Statement statement = connection.createStatement();) {
+            try (Connection connection = DriverManager.getConnection(conn);
+                    Statement statement = connection.createStatement()) {
 
                 // Create and execute a SELECT SQL statement.
-                String selectSql = "SELECT * FROM airline_preferences WHERE airline = 'airline-"+ airline +"'";
+                String selectSql = "SELECT * FROM feature_management WHERE airline = 'airline-"+ airline +"'";
                 context.getLogger().info(selectSql);
 
                 resultSet = statement.executeQuery(selectSql);
@@ -65,12 +51,11 @@ public class GetAirlinePreferences {
 
                 // Print results from select statement
                 while (resultSet.next()) {
-                    AirlinePreferences preference = new AirlinePreferences();
-                    preference.setPreference(resultSet.getString("PREFERENCE"));
-                    preference.setDescription(resultSet.getString("DESCRIPTION"));
+                    FeatureManagement preference = new FeatureManagement();
+                    preference.setTitle(resultSet.getString("TITLE"));
+                    preference.setFeatureKey(resultSet.getString("FEATURE_KEY"));
                     preference.setEnabled(resultSet.getBoolean("ENABLED"));
-                    preference.setAirlineKey(resultSet.getString("AIRLINE_KEY"));
-                    preference.setDisplay(resultSet.getBoolean("DISPLAY"));
+                    preference.setDescription(resultSet.getString("DESCRIPTION"));
                     preference.setChoiceFocal(resultSet.getBoolean("CHOICE_FOCAL"));
                     preference.setChoicePilot(resultSet.getBoolean("CHOICE_PILOT"));
                     preference.setChoiceEFBAdmin(resultSet.getBoolean("CHOICE_EFBADMIN"));

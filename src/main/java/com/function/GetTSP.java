@@ -44,7 +44,7 @@ public class GetTSP {
     KeyVaultSecret storageKey;
 
     /**
-     * This function listens at endpoint "/api/HttpExample". Two ways to invoke it
+     * This function listens at endpoint "/api/getTSP". Two ways to invoke it
      * using "curl" command in bash:
      * 1. curl -d "HTTP Body" {your host}/api/HttpExample
      * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"

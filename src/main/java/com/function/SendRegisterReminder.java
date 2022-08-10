@@ -32,7 +32,7 @@ import com.microsoft.azure.functions.*;
  */
 public class SendRegisterReminder {
     /**
-     * This function listens at endpoint "/api/SendRegisterReminder". Two ways to
+     * This function listens at endpoint "/api/sendRegisterReminder". Two ways to
      * invoke it using "curl" command in bash:
      * 1. curl -d "HTTP Body" {your host}/api/SendRegisterReminder
      * 2. curl {your host}/api/SendRegisterReminder?name=HTTP%20Query

@@ -22,7 +22,7 @@ import java.sql.ResultSet;
  */
 public class GetUsers {
     /**
-     * This function listens at endpoint "/api/GetUsers". Two ways to invoke it
+     * This function listens at endpoint "/api/getUsers". Two ways to invoke it
      * using "curl" command in bash:
      * 1. curl -d "HTTP Body" {your host}/api/GetUsers
      * 2. curl {your host}/api/GetUsers?name=HTTP%20Query

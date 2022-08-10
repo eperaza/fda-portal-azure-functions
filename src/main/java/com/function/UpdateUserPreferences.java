@@ -17,7 +17,7 @@ import com.microsoft.azure.functions.*;
  */
 public class UpdateUserPreferences {
     /**
-     * This function listens at endpoint "/api/UpdateUserPreferences". Two ways to invoke it using "curl" command in bash:
+     * This function listens at endpoint "/api/updateUserPreferences". Two ways to invoke it using "curl" command in bash:
      * 1. curl -d "HTTP Body" {your host}/api/UpdateUserPreferences
      * 2. curl {your host}/api/UpdateUserPreferences?name=HTTP%20Query
      */
