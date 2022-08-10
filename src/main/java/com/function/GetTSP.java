@@ -40,9 +40,6 @@ public class GetTSP {
     private final Logger logger = LoggerFactory.getLogger(GetTSP.class);
 
     public final static String TSP_CONFIG_ZIP_CONTAINER = "aircraft-config-package";
-    KeyVaultSecret storageName;
-    KeyVaultSecret storageKey;
-
     /**
      * This function listens at endpoint "/api/getTSP". Two ways to invoke it
      * using "curl" command in bash:
@@ -75,18 +72,6 @@ public class GetTSP {
     }
 
     public String getTSP(String airline) throws IOException, StorageException, URISyntaxException {
-
-        ManagedIdentityCredential managedIdentityCredential = new ManagedIdentityCredentialBuilder()
-                .build();
-
-        SecretClient client = new SecretClientBuilder()
-                .vaultUrl("https://fda-groundservices-kv.vault.azure.net/")
-                .credential(managedIdentityCredential)
-                .buildClient();
-
-        storageName = client.getSecret("StorageAccountName");
-        storageKey = client.getSecret("StorageKey");
-
         Date lastModified = null;
 
         String airlineGroup = airline.replace(Constants.AAD_GROUP_AIRLINE_PREFIX, StringUtils.EMPTY);
@@ -111,14 +96,8 @@ public class GetTSP {
     }
 
     private CloudStorageAccount getcloudStorageAccount() {
-
         try {
-            String storageConnectionString = new StringBuilder()
-                    .append("DefaultEndpointsProtocol=https;AccountName=").append(storageName.getValue())
-                    .append(";AccountKey=").append(storageKey.getValue())
-                    .append(";EndpointSuffix=core.windows.net;")
-                    .toString();
-            return CloudStorageAccount.parse(storageConnectionString);
+            return CloudStorageAccount.parse(System.getenv("STORAGE_CONNECTION_STRING"));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException();
         } catch (URISyntaxException urise) {

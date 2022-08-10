@@ -51,21 +51,12 @@ public class GetUsers {
 
             context.getLogger().info(airline);
 
-            ManagedIdentityCredential managedIdentityCredential = new ManagedIdentityCredentialBuilder()
-                    .build();
-
-            SecretClient client = new SecretClientBuilder()
-                    .vaultUrl("https://fda-groundservices-kv.vault.azure.net/")
-                    .credential(managedIdentityCredential)
-                    .buildClient();
-
-            KeyVaultSecret dbUri = client.getSecret("SQLDatabaseUrlNew");
-            context.getLogger().info(dbUri.getValue());
+            String conn = System.getenv("DB_CONNECTION_STRING");
 
             ResultSet resultSet = null;
             List<UserAccount> users = new ArrayList<UserAccount>();
 
-            try (Connection connection = DriverManager.getConnection(dbUri.getValue());
+            try (Connection connection = DriverManager.getConnection(conn);
                     Statement statement = connection.createStatement();) {
 
                 // Create and execute a SELECT SQL statement.

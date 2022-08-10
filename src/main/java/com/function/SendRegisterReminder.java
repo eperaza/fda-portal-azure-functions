@@ -70,7 +70,7 @@ public class SendRegisterReminder {
                 .build();
 
         SecretClient client = new SecretClientBuilder()
-                .vaultUrl("https://fda-groundservices-kv.vault.azure.net/")
+                .vaultUrl(System.getenv("KEYVAULT_CONNECTION_URI"))
                 .credential(managedIdentityCredential)
                 .buildClient();
 
