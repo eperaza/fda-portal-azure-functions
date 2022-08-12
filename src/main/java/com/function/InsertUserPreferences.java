@@ -33,6 +33,8 @@ public class InsertUserPreferences {
         String airline = request.getQueryParameters().get("airline");
         String updatedBy = request.getQueryParameters().get("updatedBy");
         String data = request.getBody().orElse(null);
+        context.getLogger().info(data);
+
 
         Gson gson = new Gson();
         Type preferencesListType = new TypeToken<ArrayList<UserPreferences>>() {

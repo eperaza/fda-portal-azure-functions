@@ -51,21 +51,23 @@ public class GetUserPreferences {
 
                 // Print results from select statement
                 while (resultSet.next()) {
-                    UserPreferences preference = new UserPreferences();
-                    preference.setPreference(resultSet.getString("PREFERENCE"));
-                    preference.setDescription(resultSet.getString("DESCRIPTION"));
-                    preference.setEnabled(resultSet.getBoolean("ENABLED"));
-                    preference.setToggle(resultSet.getBoolean("TOGGLE"));
-                    preference.setValue(resultSet.getString("VALUE"));
-                    preference.setUserKey(resultSet.getString("USER_KEY"));
-                    preferences.add(preference);
-
+                    while (resultSet.next()) {
+                        UserPreferences preference = new UserPreferences();
+                        preference.setPreference(resultSet.getString("PREFERENCE"));
+                        preference.setDescription(resultSet.getString("DESCRIPTION"));
+                        preference.setEnabled(resultSet.getBoolean("ENABLED"));
+                        preference.setToggle(resultSet.getBoolean("TOGGLE"));
+                        preference.setValue(resultSet.getString("VALUE"));
+                        preference.setUserKey(resultSet.getString("USER_KEY"));
+                        preference.setGroupBy(resultSet.getString("GROUPBY"));
+                        preference.setCreatedDateTime(resultSet.getString("CREATE_TS"));
+                        preference.setUpdatedBy(resultSet.getString("UPDATED_BY"));
+                        preferences.add(preference);
+                    }
                 }
             } catch (Exception e) {
                 System.out.println(e);
             }
-
-
             return request.createResponseBuilder(HttpStatus.OK).body(preferences).build();
         }
     }
